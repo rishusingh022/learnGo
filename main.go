@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+type person struct {
+	firstName string
+	lastName  string
+}
+
 func main() {
 
 	// cards := newDeck()
@@ -24,4 +29,20 @@ func main() {
 			fmt.Printf("Number %v is odd\n", num)
 		}
 	}
+
+	//1st method
+	alex := person{firstName: "Alex", lastName: "Anderson"}
+	fmt.Println(alex)
+
+	//2nd method
+	alex1 := person{"Alex", "Anderson"}
+	fmt.Println(alex1)
+
+	//3rd method
+	var alex3 person
+	// fmt.Println(alex3)
+
+	alex3.firstName = "Alex"
+	alex3.lastName = "Anderson"
+	fmt.Printf("%+v", alex)
 }
