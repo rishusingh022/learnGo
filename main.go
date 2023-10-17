@@ -63,8 +63,27 @@ func main() {
 	jimPointer := &jim
 	jimPointer.updateName("jimmy")
 	jim.print()
+
+	//var color map[string]string
+
+	//color:= make(map[string]string)
+
+	color := map[string]string{
+		"red":  "#00000",
+		"blue": "#00000",
+	}
+
+	color["white"] = "#00000"
+
+	delete(color, "white")
+	printMap(color)
 }
 
+func printMap(c map[string]string) {
+	for color, hex := range c {
+		fmt.Println(color, hex)
+	}
+}
 func (pointerToPerson *person) updateName(newFirstName string) {
 	(*pointerToPerson).firstName = newFirstName
 }
