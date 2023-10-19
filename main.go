@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+)
 
 type bot interface {
 	getGreeting() string
@@ -105,6 +110,29 @@ func main() {
 
 	printGreeting(eb)
 	printGreeting(sb)
+
+	// make http request
+	resp, err := http.Get("http://google.com")
+
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
+	}
+
+	bs := make([]byte, 99999)
+	resp.Body.Read(bs)
+	fmt.Println(string(bs))
+
+	io.Copy(os.Stdout, resp.Body)
+
+	// assignment solution
+	f, err := os.Open(os.Args[1])
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	io.Copy(os.Stdout, f)
 
 }
 
