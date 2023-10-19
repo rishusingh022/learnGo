@@ -146,19 +146,26 @@ func main() {
 
 	// go keyword is used to create a new routine and run the function in the background and main routine will not wait for the function to complete and it will continue to execute the next line of code
 
+	c := make(chan string)
 	for _, link := range links {
-		go checkLink(link)
+		go checkLink(link, c)
+	}
+
+	for i := 0; i < len(links); i++ {
+		fmt.Println(<-c)
 	}
 
 }
 
-func checkLink(link string) {
+func checkLink(link string, c chan string) {
 	_, err := http.Get(link)
 
 	if err != nil {
 		fmt.Println(link, "might be down")
+		c <- "Might be down I think"
 		return
 	}
+	c <- "Yep its up"
 	fmt.Println(link, "is up")
 }
 
