@@ -2,6 +2,25 @@ package main
 
 import "fmt"
 
+type bot interface {
+	getGreeting() string
+}
+
+type user struct {
+	name string
+}
+
+type bot2 interface {
+	getGreeting(string, int) (string, error)
+	getBotVersion() float64
+	respondToUser(user) string
+}
+
+// all the requirement should be qualified to become a member of bot2 family
+
+type englishBot struct{}
+type spanishBot struct{}
+
 type contactInfo struct {
 	email   string
 	zipCode int
@@ -64,6 +83,8 @@ func main() {
 	jimPointer.updateName("jimmy")
 	jim.print()
 
+	// map
+
 	//var color map[string]string
 
 	//color:= make(map[string]string)
@@ -77,6 +98,26 @@ func main() {
 
 	delete(color, "white")
 	printMap(color)
+
+	// interface
+	eb := englishBot{}
+	sb := spanishBot{}
+
+	printGreeting(eb)
+	printGreeting(sb)
+
+}
+
+func printGreeting(b bot) {
+	fmt.Println(b.getGreeting())
+}
+
+func (englishBot) getGreeting() string {
+	return "Hi there!"
+}
+
+func (spanishBot) getGreeting() string {
+	return "Hola!"
 }
 
 func printMap(c map[string]string) {
