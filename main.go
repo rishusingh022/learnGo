@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"time"
 )
 
 type bot interface {
@@ -151,8 +152,12 @@ func main() {
 		go checkLink(link, c)
 	}
 
-	for i := 0; i < len(links); i++ {
-		fmt.Println(<-c)
+	for l := range c {
+		//fmt.Println(<-c)
+		go func(link string) {
+			time.Sleep(5 * time.Second)
+			checkLink(link, c)
+		}(l)
 	}
 
 }
@@ -162,10 +167,12 @@ func checkLink(link string, c chan string) {
 
 	if err != nil {
 		fmt.Println(link, "might be down")
-		c <- "Might be down I think"
+		//c <- "Might be down I think"
+		c <- link
 		return
 	}
-	c <- "Yep its up"
+	//c <- "Yep its up"
+	c <- link
 	fmt.Println(link, "is up")
 }
 
